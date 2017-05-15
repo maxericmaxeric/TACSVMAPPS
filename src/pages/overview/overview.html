@@ -1,0 +1,57 @@
+<!--
+  Generated template for the Overview page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Overview</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <!--<h3>Advanced Ionic 2 Components</h3>-->
+  <!--<p>-->
+    <!--This app aims to help developers speed up their development process and learn how components work. It would be really nice-->
+    <!--if you checked out the <a href="https://github.com/yannbf/ionic2-components">repository</a> and contribute!-->
+  <!--</p>-->
+  <!--<p>-->
+    <!--Also, the best way to understand the ionic framework is by reading the <a href="http://ionicframework.com/docs/v2">docs</a>,-->
+    <!--which are really great.-->
+  <!--</p>-->
+  <!--<button class="pop-in" ion-button secondary menuToggle>Toggle Menu</button>-->
+
+
+  <ion-list>
+    <ion-list-header> Assets </ion-list-header>
+    <div  *ngFor="let asset of test;let i = index">
+      <ion-item>
+        {{asset.currency}} {{asset.balance_sum}}
+        <ion-icon name="md-arrow-dropdown" item-right *ngIf="!show[i]" (click)="show[i]=!show[i]"></ion-icon>
+        <ion-icon name="md-arrow-dropup" item-right *ngIf="show[i]" (click)="show[i]=!show[i]"></ion-icon>
+      </ion-item>
+      <ion-item [hidden]="!show[i]">
+        <!--<canvas #doughnutCanvas></canvas>-->
+        <charts-custom [customer_code]="customer_code" [currency]="asset.currency"></charts-custom>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header> Liabilities </ion-list-header>
+    <div *ngFor="let liability of liabilities">
+      <ion-item>
+        {{liability.value}}
+        <ion-icon name="md-arrow-dropdown" item-right *ngIf="!liability.show" (click)="liability.show=!liability.show"></ion-icon>
+        <ion-icon name="md-arrow-dropup" item-right *ngIf="liability.show" (click)="liability.show=!liability.show"></ion-icon>
+      </ion-item>
+      <ion-item *ngIf="liability.show">
+        <h4>pie chart</h4>
+      </ion-item>
+    </div>
+  </ion-list>
+
+</ion-content>
