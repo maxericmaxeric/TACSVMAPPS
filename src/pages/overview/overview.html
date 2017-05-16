@@ -27,29 +27,29 @@
 
   <ion-list>
     <ion-list-header> Assets </ion-list-header>
-    <div  *ngFor="let asset of test;let i = index">
+    <div  *ngFor="let ast of asset;let i = index">
       <ion-item>
-        {{asset.currency}} {{asset.balance_sum}}
-        <ion-icon name="md-arrow-dropdown" item-right *ngIf="!show[i]" (click)="show[i]=!show[i]"></ion-icon>
-        <ion-icon name="md-arrow-dropup" item-right *ngIf="show[i]" (click)="show[i]=!show[i]"></ion-icon>
+        {{ast.balance_sum | currency:ast.currency:true}}
+        <ion-icon name="md-arrow-dropdown" item-right *ngIf="!asset_show[i]" (click)="asset_show[i]=!asset_show[i]"></ion-icon>
+        <ion-icon name="md-arrow-dropup" item-right *ngIf="asset_show[i]" (click)="asset_show[i]=!asset_show[i]"></ion-icon>
       </ion-item>
-      <ion-item [hidden]="!show[i]">
+      <ion-item [hidden]="!asset_show[i]">
         <!--<canvas #doughnutCanvas></canvas>-->
-        <charts-custom [customer_code]="customer_code" [currency]="asset.currency"></charts-custom>
+        <charts-custom [data]="ast.depositType"></charts-custom>
       </ion-item>
     </div>
   </ion-list>
 
   <ion-list>
     <ion-list-header> Liabilities </ion-list-header>
-    <div *ngFor="let liability of liabilities">
+    <div *ngFor="let lablt of liability;let i = index">
       <ion-item>
-        {{liability.value}}
-        <ion-icon name="md-arrow-dropdown" item-right *ngIf="!liability.show" (click)="liability.show=!liability.show"></ion-icon>
-        <ion-icon name="md-arrow-dropup" item-right *ngIf="liability.show" (click)="liability.show=!liability.show"></ion-icon>
+        {{lablt.balance_sum | currency:lablt.balance_currency:true}}
+        <ion-icon name="md-arrow-dropdown" item-right *ngIf="!liabiltiy_show[i]" (click)="liabiltiy_show[i]=!liabiltiy_show[i]"></ion-icon>
+        <ion-icon name="md-arrow-dropup" item-right *ngIf="liabiltiy_show[i]" (click)="liabiltiy_show[i]=!liabiltiy_show[i]"></ion-icon>
       </ion-item>
-      <ion-item *ngIf="liability.show">
-        <h4>pie chart</h4>
+      <ion-item [hidden]="!liabiltiy_show[i]">
+        <charts-custom [data]="lablt.loanType"></charts-custom>
       </ion-item>
     </div>
   </ion-list>

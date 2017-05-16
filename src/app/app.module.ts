@@ -3,7 +3,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { Modules, Pages, Directives, Pipes, Providers, Components } from './app.imports';
-import { LoadingServiceProvider } from '..\providers\loading-service/loading-service';
 
 @NgModule({
   declarations: [

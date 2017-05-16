@@ -1,8 +1,9 @@
 import {Component, ViewChild, ViewChildren, QueryList} from '@angular/core';
 import {NavController, NavParams, LoadingController} from 'ionic-angular';
 import Chart from 'chart.js';
-import {Asset, AssetdataServiceProvider, AccountType} from "../../providers/assetdata-service/assetdata-service";
+import { AssetdataServiceProvider, AccountType} from "../../providers/assetdata-service/assetdata-service";
 import {LoadingServiceProvider} from "../../providers/util/loading-service";
+import {OverviewServiceProvider, Overview, Liability, Asset} from "../../providers/overview-service/overview-service";
 /**
  * Generated class for the Overview page.
  *
@@ -39,12 +40,18 @@ export class OverviewPage {
   test: Asset[] = [];
   show: boolean[] = [];
 
-  acctype: AccountType[] = [];
+  // acctype: AccountType[] = [];
   customer_code: string = "100100000060";
 
+  overview: Overview;
+  asset: Asset[] = [];
+  asset_show: boolean[] =[];
+  liability: Liability[] = [];
+  liabiltiy_show: boolean[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public assetService: AssetdataServiceProvider, public loaderService: LoadingServiceProvider) {
-    this.getAssets();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public assetService: AssetdataServiceProvider, public overviewService: OverviewServiceProvider, public loaderService: LoadingServiceProvider) {
+    // this.getAssets();
+    this.getOverview();
 
   }
 
@@ -52,10 +59,40 @@ export class OverviewPage {
     console.log('ionViewDidLoad Overview');
   }
 
+  getCurrencySymbol(currency: string) {
+    switch (currency)
+    {
+      case "MOP": return "MOP $";
+      case "RMB": return "￥";
+      case "USD": return "$";
+      case "HKD": return "HKD $";
+    }
+  }
+
+  getOverview(): void {
+    this.loaderService.presentLoading();
+    this.overviewService.getOverview(this.customer_code).then(data => {
+      this.overview = data;
+      // console.log(JSON.stringify(this.overview));
+      this.asset = this.overview.assets;
+      console.log(this.asset);
+      for (let a of this.asset) {
+        this.asset_show.push(false);
+      }
+      console.log(this.asset_show);
+      this.liability = this.overview.liabilities;
+      console.log(this.liability);
+      for (let a of this.liability) {
+        this.liabiltiy_show.push(false);
+      }
+      console.log(this.liabiltiy_show);
+    });
+  }
+
   getAssets(): void {
     this.loaderService.presentLoading();
     this.assetService.getAssets(this.customer_code).then(aaa => {
-      this.test = aaa;
+      // this.test = aaa;
       let length = this.test.length;
       for (let i = 0; i < length; i++) {
         this.show.push(false);
@@ -71,9 +108,9 @@ export class OverviewPage {
 
   private getAccType(customer_code: string, currency: string) {
     this.assetService.getAccType(this.customer_code, currency).then(aaa => {
-      this.acctype = aaa;
-      console.log(this.acctype.length);
-      console.log(JSON.stringify(this.acctype));
+      // this.acctype = aaa;
+      // console.log(this.acctype.length);
+      // console.log(JSON.stringify(this.acctype));
     });
   }
 

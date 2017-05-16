@@ -17,9 +17,13 @@ import {LoadingServiceProvider} from "../../providers/util/loading-service";
 export class ChartsCustom {
 
   // @Input() chart: any;
-  @Input() customer_code: string;
-  @Input() currency: string;
+  // @Input() customer_code: string;
+  // @Input() currency: string;
+  @Input() data: any[];
   @ViewChild('mycanvas') curCanvas;
+  labels: string[] = [];
+  datas: number[] = [];
+  curr: string = "USD";
   constructor(public element: ElementRef, public assetService: AssetdataServiceProvider, public loaderService: LoadingServiceProvider) {
 
   }
@@ -33,37 +37,51 @@ export class ChartsCustom {
       // this.getDoughnutPieChart();
 
       // this.loaderService.presentLoading();
-      this.getChartData();
+      // this.getChartData();
       // this.getCanvasJsDoughnut();
+
+      for (let dt of this.data) {
+        this.labels.push(dt.type);
+        this.datas.push(dt.balance_sum);
+      }
+      this.getDoughnutPieChart(this.labels, this.datas);
     },0)
-
-
   }
 
-  getChartData(): void {
-    this.getAccType(this.customer_code, this.currency);
+  formatNumber(num: number): number {
+    if (isNaN(num)) {
+      throw new TypeError("num is not a number");
+    }
+    let numstr: string = ("" + num).replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,");
+    let ret: number = Number(numstr);
+    console.log(ret);
+    return ret;
   }
 
-  private getAccType(customer_code: string, currency: string) {
+  // getChartData(): void {
+  //   this.getAccType(this.customer_code, this.currency);
+  // }
+
+ /* private getAccType(customer_code: string, currency: string) {
     this.assetService.getAccType(this.customer_code, currency).then(data => {
       let aaa:string[] = [];
       let bbb: number[] = [];
       // let total: number = 0;
 
-      /*//计算总金额
+      /!*!//计算总金额
        for(let type of this.chart){
        total = total + type.balance;
        }
-       console.log(total);*/
+       console.log(total);*!/
 
       for(let type of data){
         aaa.push(type.account_type);
-        /*//显示百分比
+        /!*!//显示百分比
          if (total !== 0) {
          let percent = Math.round(type.balance / total * 100);
          bbb.push(percent);
          }
-         else { bbb.push(0);}*/
+         else { bbb.push(0);}*!/
         bbb.push(type.balance_sum);
         console.log(type.account_type + " " + type.balance_sum);
       }
@@ -73,7 +91,7 @@ export class ChartsCustom {
       this.getDoughnutPieChart(aaa,bbb);
     });
 
-  }
+  }*/
 
   /*getCanvasJsDoughnut() {
     var chart = new CanvasJS.Chart("curCanvas",

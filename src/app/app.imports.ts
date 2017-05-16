@@ -133,6 +133,7 @@ import {Mycharts} from "../components/mycharts/mycharts";
 import {ChartsCustom} from "../components/charts/charts";
 import {AssetdataServiceProvider} from "../providers/assetdata-service/assetdata-service";
 import {LoadingServiceProvider} from "../providers/util/loading-service";
+import {OverviewServiceProvider} from "../providers/overview-service/overview-service";
 
 export const Modules = [
     SwingModule,
@@ -262,8 +263,10 @@ export const Providers = [
     CardIO,
     StatusBar,
     SplashScreen,
+
     AssetdataServiceProvider,
-    LoadingServiceProvider
+    LoadingServiceProvider,
+    OverviewServiceProvider
 ]
 
 export const Components = [

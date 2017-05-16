@@ -19,7 +19,7 @@ export class LoadingServiceProvider {
   presentLoading() {
     let loader = this.loadingCtrl.create({
       content: "Loading...",
-      duration: 3000
+      duration: 500
     });
     loader.present();
   }
